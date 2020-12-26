@@ -51,6 +51,9 @@ shop_captchas/: images of captchas when buying items.
 - `daemon.py`: Does activities at regular intervals you specify.
 
 ## TODO
+LIB
+- Rewrite parser with beatiful soup
+
 
 ### Site activities
 
