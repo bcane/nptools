@@ -53,7 +53,7 @@ shop_captchas/: images of captchas when buying items.
 ## TODO
 LIB
 - Rewrite parser with beatiful soup
-
+- Parse NST time in page and log it
 
 ### Site activities
 
