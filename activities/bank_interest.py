@@ -5,10 +5,18 @@ def bank_interest():
     np = NeoPage(path)
     if np.contains('You have already collected your interest today.'):
         print('Already collected interest today.')
-    elif np.contains('Collect Interest ('):
-        amount = np.search(r'Collect Interest \((.*?)\)')[1]
-        print(f"Collecting {amount} interest.")
-        np.post('/process_bank.phtml', 'type=interest')
+    #elif WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'frmCollectInterest')):
+        # Submit the form
+    elif np.contains('frmCollectInterest'):
+        driver.execute_script('frmCollectInterest.submit()')
+
+        # Wait for the response
+        response = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.TAG_NAME, 'body')))
+        # Parse the response
+        data = json.loads(response.text)
+
+        # Print the response
+        print(data)
     else:
         print("Error collecting bank interest.")
 

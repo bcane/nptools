@@ -1,14 +1,14 @@
 # nptools
 
-Illicit automations for neopets.
-
-**Note: I finally got frozen after autobuying 24/7 for about a month, so I won't be developing this anymore. Use at your own risk.**
+Illicit automations for neopets. Run in selenium.
 
 ## Features
 
 - Daemon that you can just configure, run, and forget about
-- Dailies, including difficult ones like Food Club (using max TER) and
-  multi-dailies like underwater fishing
+- Dailies
+
+## TODO Features
+- including difficult dailes Food Club (using max TER) and multi-dailies like underwater fishing
 - Plays certain games very well. e.g. Shapeshifter, Fetch, Tyranu Evavu
 - Restocks and prices items automatically ($$$)
 - Logs certain results (e.g. lab zaps)
@@ -34,29 +34,34 @@ safe dailies enabled first. (Comment out most of the tasks in daemon.py)
 
 ## Produced files
 
+### Basic
 ```
-itemdb.db: sqlite3 database of Neopets items.
 g.pickle: pickle of some state we want to persist (see `lib/g.py`).
-nptools.cookies: cookies from curl.
+nptools.cookies: cookies from selenium broswer output by pickle.
+```
+### Advance
+```
 *.log: various activity-specific log files. e.g. lab_ray.log tracks zap results.
 pages/: copies of all requested pages.
 shop_captchas/: images of captchas when buying items.
 ```
-
 ## Directory structure
 
 - `lib/`: Base library with shared functionality.
+    - `neopage.py`: Page parser
 - `activities/`: Application of lib to specific activities around the site.
 - `repl.py`: Imports a bunch of things for `python -i` use.
 - `daemon.py`: Does activities at regular intervals you specify.
 
 ## TODO
 LIB
-- Rewrite parser with beatiful soup
+- Rewrite parser with parser
+Loger 
 - Parse NST time in page and log it
+Activities
+- Rewrite some with new layout
 
-### Site activities
-
+## Site activities
 - Negg Cave (interesting puzzle)
 - Wishing Well (small chance of 300k-600k, probably +ev?)
 - Sakhmet Solitaire (5k/day)

@@ -5,13 +5,9 @@ path = '/pirates/anchormanagement.phtml'
 def anchor_management():
     np = NeoPage(path)
     if np.contains('form-fire-cannon'):
-        action = np.search('<input name="action" type="hidden" value="(.*?)">')[1]
-        np.post(path, action=action)
-        if np.contains('prize-item-name'):
-            prize = np.search('<span class="prize-item-name">(.*?)</span>')[1]
-            print(f'Blasted krawken; got {prize}')
-        else:
-            print('Blasted krawken; got unknown prize')
+        driver.findElement(By.ID,'form-fire-cannon').submit()
+        prize = driver.find_element_by_css_selector("span.prize-item-name").text
+        print(f'Blasted krawken; got {prize}')
     elif np.contains('safe from sea monsters for one day'):
         print('Already did anchor management.')
     else:

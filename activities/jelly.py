@@ -4,6 +4,7 @@ import lib
 def jelly():
     path = '/jelly/jelly.phtml'
     np = lib.NeoPage(path)
+    driver.find_element_by_class_name("m20").form.submit()
     np.post(path, type='get_jelly')
     if np.contains('You take some'):
         prize = np.search(r'You take some <b>(.*?)</b>')[1]

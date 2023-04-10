@@ -7,18 +7,15 @@ import pycurl
 import re
 import sqlite3
 import time
+import pickle
 from urllib.parse import urlsplit, urlencode, quote_plus, quote
-
+from selenium import webdriver
 from . import util
 
 class NotLoggedInError(Exception):
     pass
 
-FIREFOX_COOKIES_DB = os.environ.get('FIREFOX_COOKIES_DB')
 cookies_db = None
-if FIREFOX_COOKIES_DB:
-    cookies_db = sqlite3.connect(FIREFOX_COOKIES_DB)
-USER_AGENT = os.environ.get('USER_AGENT', 'Mozilla/5.0')
 COOKIE_FILE = 'nptools.cookies'
 
 class NeoPage:
@@ -28,9 +25,10 @@ class NeoPage:
         self.last_file_path = ''
         self.referer = ''
         self.base_url = base_url or 'http://www.neopets.com'
+        self.driver = webdriver.Firefox()
         self.save_pages = save_pages
         if path:
-            self.get(path)
+            self.driver.get(path)
 
     def save_to_file(self, filename=None):
         open(filename or self.last_file_path, 'wb').write(self.byte_content)
@@ -171,7 +169,7 @@ class NeoPage:
         return loc
 
     def contains(self, string):
-        return self.find(string) >= 0
+        return self.driver.find_element(By.ID, string) 
     
     def search(self, regex):
         r = re.compile(regex, re.DOTALL)
@@ -185,11 +183,11 @@ class NeoPage:
         return r.findall(self.content)
 
     def active_pet_name(self):
-        return self.search('<td class="activePet sf" align="center"><a href="/customise/\?view=(.*?)"><b>')[1]
+        return self.driver.find_element(By.CLASS_NAME, "profile-dropdown-link").text
 
     def current_np(self):
-        return util.amt(self.search(r'''<a id='npanchor' href="/inventory.phtml">(.*?)</a>''')[1])
-    
+        return self.driver.find_element(By.ID, 'npanchor').text    
+
     def set_referer_path(self, path):
         self.referer = self.base_url + path
 
